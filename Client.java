@@ -10,11 +10,12 @@ public class Client implements Observer {
 
     public Client(String name) {
         this.name = name;
+        this.watchList = new ArrayList<>();
     }
 
     public void addToWatchList(Product product) {
-        watchList.add(product);
-        product.addObserver(this);
+        watchList.add(product); 
+        System.out.println(name + " added " + product.getName() + " to the watchlist.");
     }
 
     public void buyProduct(Product product, int quantity) throws OutOfStockException {
