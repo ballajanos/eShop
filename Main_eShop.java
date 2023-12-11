@@ -13,7 +13,7 @@ public class Main_eShop {
         Product laptop = new Product("Laptop", "Electronics", 10, 999.99);
         Product smartphone = new Product("Smartphone", "Electronics", 15, 699.99);
         Product headphones = new Product("Headphones", "Audio", 8, 149.99);
-        
+
         seller.addProduct(laptop);
         seller.addProduct(smartphone);
         seller.addProduct(headphones);
@@ -27,33 +27,38 @@ public class Main_eShop {
 
         client.addToWatchList(laptop);
 
+        // Seller updates the product details
         eShop.updateProductDetails(laptop, "Gaming Laptop", "Electronics", 5, 1299.99);
 
-        eShop.configurePromotion(laptop, 10, "2023-01-01 00:00:00 to 2024-02-01 23:59:59");
-
+        // Display product details after updates
         eShop.showProductDetails();
 
         List<CartItem> cartItems = new ArrayList<>();
         Cart cart = new Cart(cartItems, new InStoreDelivery());
 
+        // Add products to the cart
         cart.addToCart(laptop, 2);
         cart.addToCart(smartphone, 1);
-       
-		cart.addToCart(headphones, 5);
- 
-		cart.displayCart(cartItems);
-		List<CartItem> discountedItems = eShop.applyPromotions(cart.getItems());
-		cart.displayCartWithPromotions();
-		
+        cart.addToCart(headphones, 5);
+        cart.displayCart();
+        // Choose payment method and complete the order
         double totalAmount = calculateTotalAmount(cart.getItems());
         PaymentMethod paymentMethod = new CardPayment();
         eShop.choosePaymentMethod(paymentMethod, totalAmount);
-        
+
+        // Simulate completing the order
         cart.completeOrder(paymentMethod, eShop.getPromotions());
 
-       
+        // Display updated product details after completing the order
         eShop.showProductDetails();
 
+        // Cancel the last order
+        List<Order> clientOrders = client.getOrders();
+        if (!clientOrders.isEmpty()) {
+            Order lastOrder = clientOrders.get(clientOrders.size() - 1);
+            cart.cancelOrder(lastOrder);
+        }
+    
         /*
         PaymentMethodFactory cardPaymentFactory = new CardPaymentFactory();
         PaymentMethod cardPayment = cardPaymentFactory.createPaymentMethod();
@@ -71,24 +76,16 @@ public class Main_eShop {
         PaymentMethod cryptoPayment = cryptoPaymentFactory.createPaymentMethod();
         cryptoPayment.processPayment(0.01); */
 
-      //  cart.addToCart(headphones, 5);
-    //    cart.displayCart(discountedItems);
+     //    cart.displayCartWithPromotions(discountedItems);
         
-        List<Order> clientOrders = client.getOrders();
-        if (!clientOrders.isEmpty()) {
-            Order lastOrder = clientOrders.get(clientOrders.size() - 1);
-            cart.cancelOrder(lastOrder);
-        }
-
+        
         client.displayClientDetails();
         
         Product discountedProduct = new Product("Discounted Product", "Electronics", 5, 149.99);
         eShop.configurePromotion(discountedProduct, 15, "2023-01-01 to 2023-12-14");
         cart.addToCart(discountedProduct, 3);
-        
-
-		cart.addToCart(discountedProduct, 10);
-		
+       
+		cart.addToCart(headphones, 5);
         eShop.showProductDetails();
         
     }
