@@ -84,7 +84,17 @@ public class Cart {
     }
     
     
-    public void displayCart(List<CartItem> discountedItems) {
+    public void displayCart() {
+        System.out.println("Shopping Cart Contents:");
+        for (CartItem item : items) {
+            System.out.println(item.getProduct().getName() +
+                    " - Quantity: " + item.getQuantity() +
+                    " - Price: $" + item.getTotalPrice());
+        }
+        System.out.println("Total Price: $" + calculateTotal());
+    }
+    
+    public void displayCartWithPromotions(List<CartItem> discountedItems) {
         System.out.println("Cart:");
         for (CartItem cartItem : discountedItems) {
             Product product = cartItem.getProduct();
@@ -93,21 +103,6 @@ public class Cart {
             System.out.println("  " + product.getName() + " x" + quantity + " - $" + price);
         }
         System.out.println("Total Amount: $" + calculateTotal());
-    }
-    
-    public void displayCartWithPromotions() {
-        System.out.println("Cart Items:");
-		for (CartItem cartItem : cartItems) {
-            Product product = cartItem.getProduct();
-            int quantity = cartItem.getQuantity();
-            double discountedPrice = cartItem.calculateDiscountedPrice();
-            Promotion promotion = product.getPromotion();
-
-            System.out.println("Product: " + product.getName() +
-                    ", Quantity: " + quantity +
-                    ", Discounted Price: $" + discountedPrice +
-                    (promotion != null ? ", Promotion: " + promotion : ""));
-        }
     }
   
 
